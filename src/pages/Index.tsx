@@ -1,8 +1,11 @@
 
 import React, { useState } from 'react';
-import { ImageUpload } from '@/components/ImageUpload';
-import { FilterControls } from '@/components/FilterControls';
+import { HeroSection } from '@/components/HeroSection';
+import { AboutSection } from '@/components/AboutSection';
+import { HowItWorks } from '@/components/HowItWorks';
+import { ModelInfo } from '@/components/ModelInfo';
 import { ImageCanvas } from '@/components/ImageCanvas';
+import { FilterControls } from '@/components/FilterControls';
 import { useToast } from '@/components/ui/use-toast';
 
 const Index = () => {
@@ -36,41 +39,27 @@ const Index = () => {
     }));
   };
 
-  const handleDownload = () => {
-    if (!image) return;
-    
-    toast({
-      title: "Coming soon!",
-      description: "Image processing will be implemented in the next update."
-    });
-  };
-
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tighter">Photo Filter Finesse</h1>
-          <p className="text-muted-foreground">Upload an image, draw rectangles, and apply beautiful filters</p>
+    <div className="min-h-screen bg-background">
+      <HeroSection onImageUpload={handleImageUpload} />
+      {image && (
+        <div className="max-w-6xl mx-auto p-6 grid gap-6 md:grid-cols-[2fr_1fr]">
+          <ImageCanvas image={image} filters={filters} />
+          <FilterControls
+            filters={filters}
+            onChange={handleFilterChange}
+            onDownload={() => {
+              toast({
+                title: "Coming soon!",
+                description: "Image processing will be implemented in the next update."
+              });
+            }}
+          />
         </div>
-
-        <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
-          <div className="space-y-6">
-            {!image ? (
-              <ImageUpload onImageUpload={handleImageUpload} />
-            ) : (
-              <ImageCanvas image={image} filters={filters} />
-            )}
-          </div>
-          
-          {image && (
-            <FilterControls
-              filters={filters}
-              onChange={handleFilterChange}
-              onDownload={handleDownload}
-            />
-          )}
-        </div>
-      </div>
+      )}
+      <AboutSection />
+      <HowItWorks />
+      <ModelInfo />
     </div>
   );
 };
