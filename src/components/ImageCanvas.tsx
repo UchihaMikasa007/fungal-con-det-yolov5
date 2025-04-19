@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
-import { Canvas as FabricCanvas, Rect } from 'fabric';
+import { Canvas as FabricCanvas, Rect, Image as FabricImage } from 'fabric';
 
 interface ImageCanvasProps {
   image: string;
@@ -9,6 +9,12 @@ interface ImageCanvasProps {
     contrast: number;
     saturation: number;
   };
+}
+
+// Import correct types for Fabric.js objects
+type FabricImageWithFilters = FabricImage & {
+  filters: any[];
+  applyFilters: () => FabricImage;
 }
 
 export const ImageCanvas = ({ image, filters }: ImageCanvasProps) => {
@@ -31,7 +37,7 @@ export const ImageCanvas = ({ image, filters }: ImageCanvasProps) => {
     const img = new Image();
     img.src = image;
     img.onload = () => {
-      const imgInstance = new fabric.Image(img);
+      const imgInstance = new FabricImage(img);
       
       // Scale image to fit canvas while maintaining aspect ratio
       const scale = Math.min(
@@ -99,15 +105,20 @@ export const ImageCanvas = ({ image, filters }: ImageCanvasProps) => {
     if (!fabricRef.current) return;
     
     fabricRef.current.getObjects('image').forEach((img) => {
-      if (img.filters) {
-        img.filters = [];
+      const fabricImg = img as FabricImageWithFilters;
+      
+      if (fabricImg.filters) {
+        fabricImg.filters = [];
       }
-      img.filters?.push(
-        new fabric.Image.filters.Brightness({ brightness: (filters.brightness - 100) / 100 }),
-        new fabric.Image.filters.Contrast({ contrast: (filters.contrast - 100) / 100 }),
-        new fabric.Image.filters.Saturation({ saturation: filters.saturation / 100 })
-      );
-      img.applyFilters();
+      
+      // Create filter objects with the proper Fabric namespace
+      const brightnessFilter = new FabricImage.filters.Brightness({ brightness: (filters.brightness - 100) / 100 });
+      const contrastFilter = new FabricImage.filters.Contrast({ contrast: (filters.contrast - 100) / 100 });
+      const saturationFilter = new FabricImage.filters.Saturation({ saturation: filters.saturation / 100 });
+      
+      // Add filters to the image
+      fabricImg.filters = [brightnessFilter, contrastFilter, saturationFilter];
+      fabricImg.applyFilters();
     });
     
     fabricRef.current.renderAll();
