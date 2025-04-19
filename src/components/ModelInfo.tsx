@@ -1,13 +1,12 @@
-
 import React from 'react';
-import { GearIcon } from 'lucide-react';
+import { Cog } from 'lucide-react';
 
 export const ModelInfo = () => {
   return (
     <div className="py-12 bg-secondary/20">
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
-          <GearIcon className="h-8 w-8" />
+          <Cog className="h-8 w-8" />
           Model Overview
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
