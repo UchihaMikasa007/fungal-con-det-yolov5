@@ -29,10 +29,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
   });
 
   return (
-    <div
+    <div 
       {...getRootProps()}
       className={cn(
-        "drop-zone cursor-pointer",
+        "drop-zone cursor-pointer flex justify-center items-center", // Added flex, justify-center, and items-center
         isDragging && "active"
       )}
     >
