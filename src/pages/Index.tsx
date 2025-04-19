@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { ImageUpload } from '@/components/ImageUpload';
 import { FilterControls } from '@/components/FilterControls';
+import { ImageCanvas } from '@/components/ImageCanvas';
 import { useToast } from '@/components/ui/use-toast';
 
 const Index = () => {
@@ -24,7 +25,7 @@ const Index = () => {
     reader.readAsDataURL(file);
     toast({
       title: "Image uploaded successfully",
-      description: "You can now apply filters to your image."
+      description: "You can now draw rectangles and apply filters to your image."
     });
   };
 
@@ -38,7 +39,6 @@ const Index = () => {
   const handleDownload = () => {
     if (!image) return;
     
-    // In the next iteration, we'll implement the actual filter processing
     toast({
       title: "Coming soon!",
       description: "Image processing will be implemented in the next update."
@@ -50,7 +50,7 @@ const Index = () => {
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold tracking-tighter">Photo Filter Finesse</h1>
-          <p className="text-muted-foreground">Upload an image and apply beautiful filters</p>
+          <p className="text-muted-foreground">Upload an image, draw rectangles, and apply beautiful filters</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
@@ -58,16 +58,7 @@ const Index = () => {
             {!image ? (
               <ImageUpload onImageUpload={handleImageUpload} />
             ) : (
-              <div className="aspect-[3/2] rounded-lg overflow-hidden bg-muted">
-                <img
-                  src={image}
-                  alt="Uploaded"
-                  className="w-full h-full object-contain"
-                  style={{
-                    filter: `brightness(${filters.brightness}%) contrast(${filters.contrast}%) saturate(${filters.saturation}%)`
-                  }}
-                />
-              </div>
+              <ImageCanvas image={image} filters={filters} />
             )}
           </div>
           
