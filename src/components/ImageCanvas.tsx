@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
-import { Canvas as FabricCanvas, Rect, Image as FabricImage } from 'fabric';
+import { Canvas as FabricCanvas, Rect, Image as FabricImage, filters } from 'fabric';
 
 interface ImageCanvasProps {
   image: string;
@@ -17,7 +17,7 @@ type FabricImageWithFilters = FabricImage & {
   applyFilters: () => FabricImage;
 }
 
-export const ImageCanvas = ({ image, filters }: ImageCanvasProps) => {
+export const ImageCanvas = ({ image, filters: imageFilters }: ImageCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<FabricCanvas | null>(null);
   const isDrawing = useRef(false);
@@ -112,9 +112,9 @@ export const ImageCanvas = ({ image, filters }: ImageCanvasProps) => {
       }
       
       // Create filter objects with the proper Fabric namespace
-      const brightnessFilter = new FabricImage.filters.Brightness({ brightness: (filters.brightness - 100) / 100 });
-      const contrastFilter = new FabricImage.filters.Contrast({ contrast: (filters.contrast - 100) / 100 });
-      const saturationFilter = new FabricImage.filters.Saturation({ saturation: filters.saturation / 100 });
+      const brightnessFilter = new filters.Brightness({ brightness: (imageFilters.brightness - 100) / 100 });
+      const contrastFilter = new filters.Contrast({ contrast: (imageFilters.contrast - 100) / 100 });
+      const saturationFilter = new filters.Saturation({ saturation: imageFilters.saturation / 100 });
       
       // Add filters to the image
       fabricImg.filters = [brightnessFilter, contrastFilter, saturationFilter];
@@ -122,7 +122,7 @@ export const ImageCanvas = ({ image, filters }: ImageCanvasProps) => {
     });
     
     fabricRef.current.renderAll();
-  }, [filters]);
+  }, [imageFilters]);
 
   return (
     <div className="relative w-full aspect-[4/3] bg-muted rounded-lg overflow-hidden">
