@@ -5,7 +5,7 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 39 100% 95%; /* Soft Peach color */
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -44,4 +44,3 @@
 .drop-zone.active {
   @apply border-primary bg-primary/5;
 }
-
