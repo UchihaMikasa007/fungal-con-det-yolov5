@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Info, GitHub, Link } from 'lucide-react';
+import { Info, Link as LucideLink, Github } from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -42,10 +42,10 @@ export const Footer = () => {
             <Info className="h-5 w-5" />
           </a>
           <a href="#" className="text-muted-foreground hover:text-primary">
-            <GitHub className="h-5 w-5" />
+            <Github className="h-5 w-5" />
           </a>
           <a href="#" className="text-muted-foreground hover:text-primary">
-            <Link className="h-5 w-5" />
+            <LucideLink className="h-5 w-5" />
           </a>
         </div>
       </div>
