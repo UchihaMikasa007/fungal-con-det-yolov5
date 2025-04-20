@@ -6,6 +6,7 @@ import { HowItWorks } from '@/components/HowItWorks';
 import { ModelInfo } from '@/components/ModelInfo';
 import { ImageCanvas } from '@/components/ImageCanvas';
 import { FilterControls } from '@/components/FilterControls';
+import { Footer } from '@/components/Footer';
 import { useToast } from '@/components/ui/use-toast';
 
 const Index = () => {
@@ -40,26 +41,29 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <HeroSection onImageUpload={handleImageUpload} />
-      {image && (
-        <div className="max-w-6xl mx-auto p-6 grid gap-6 md:grid-cols-[2fr_1fr]">
-          <ImageCanvas image={image} filters={filters} />
-          <FilterControls
-            filters={filters}
-            onChange={handleFilterChange}
-            onDownload={() => {
-              toast({
-                title: "Coming soon!",
-                description: "Image processing will be implemented in the next update."
-              });
-            }}
-          />
-        </div>
-      )}
-      <AboutSection />
-      <HowItWorks />
-      <ModelInfo />
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="flex-grow">
+        <HeroSection onImageUpload={handleImageUpload} />
+        {image && (
+          <div className="max-w-6xl mx-auto p-6 grid gap-6 md:grid-cols-[2fr_1fr]">
+            <ImageCanvas image={image} filters={filters} />
+            <FilterControls
+              filters={filters}
+              onChange={handleFilterChange}
+              onDownload={() => {
+                toast({
+                  title: "Coming soon!",
+                  description: "Image processing will be implemented in the next update."
+                });
+              }}
+            />
+          </div>
+        )}
+        <AboutSection />
+        <HowItWorks />
+        <ModelInfo />
+      </div>
+      <Footer />
     </div>
   );
 };
